@@ -320,4 +320,46 @@ bindEvent(a,'click',function(e){
 	console.log(a.innerHTML);
 })
 
-//Ajax
+//Ajax(XMLHttpRequest状态码说明，跨域)
+//不依赖第三方库写一个ajax
+var xhr=new XMLHttpRequest();//注意：IE低版本使用ActiveXObject
+xhr.open('GET','/api',false);//false代表异步请求
+xhr.onreadystatechage=function(){
+	//readyState标识XHR对象的状态，有五个值：0初始化，1载入，2载入完成，3解析，4完成
+	if(xhr.readyState==4){
+		//status表示响应的HTTP状态码
+		if(xhr.status==200){
+			alert(xhr.responseText);
+		}
+	}
+}
+xhr.send(null);
+//跨域（协议、域名、端口有一个不同就算跨域）
+//浏览器有同源策略，不允许ajax访问其他域接口
+/*可跨域加载资源的标签：<img src="">、<link href="">、<script src="">
+<img>用于打点统计，统计网站可能是其他域
+<link><script>可以使用CDN，CDN也是其他域
+<script>可以用于JSONP*/
+
+//存储
+/*cookie:
+本身用于客户端和服务器端的通信
+但是它有本地存储的功能，于是就被“借用”
+使用document.cookie=...获取和修改即可
+*/
+/*cookie用于存储的缺点:
+1、存储量太小，只有4KB
+2、所有http请求都带着，会影响获取资源效率
+3、API简单，需要封装才能用
+*/
+/*localStorage和sessionStorage
+1、HTML5专门为存储而设计的，最大容量5M(不用在请求中带着)
+2、API简单易用
+3、localStorage.setItem(key,value);localStorage.getItem(key);
+*/
+/*cookie、localStorage和sessionStorage区别
+1、容量
+2、是否会携带到ajax中
+3、API易用性
+*/
+
